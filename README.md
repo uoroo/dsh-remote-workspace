@@ -53,7 +53,15 @@ dsh-remote-workspace/
 
 ```bash
 sudo apt install python3-aiohttp sshfs sshpass  # 反代 + sshfs 挂载
-# Node 工具链（pnpm）：harness 仓库自带要求，按官方文档安装
+# Node 工具链（pnpm）：按 harness 官方文档安装
+```
+
+**需要 clone harness 源码仓库**（插件要放进仓库内构建，dsh-web 服务也从这里启动）：
+
+```bash
+git clone https://github.com/deepseek-ai/deepseek-harness.git ~/deepseek-harness
+cd ~/deepseek-harness && pnpm install
+# 按官方文档初始化 dsh profile，并启动 dsh-web（监听 127.0.0.1:3080）
 ```
 
 ### 1. 部署反代 dsh-proxy
@@ -96,15 +104,22 @@ systemctl --user restart dsh-web.service
 
 > **注意**：插件注册 `directoryFlow` slot 时使用 `priority: -200` 以压过其他占用者（如 dsh-remote 插件的 `-100`）——single-kind slot 规则是**最低 priority 渲染**。
 
-### 3.（可选）修复反代下插件配置为空
+### 3. 修补 ui-settings 源码（强烈建议：反代访问下插件配置才不空白）
 
-非 loopback 访问时 harness 的 ui-settings 会把插件配置存到 memory（不读写文件），导致插件配置页空白。已含一键修复脚本：
+**这一步会修改 harness 源码**（约一行）：`packages/client/ui-settings/src/client/settings-scope.ts`
+里的 `connection.isLoopback ? 'host' : 'memory'` 决定插件配置的存储位置——非 loopback 访问
+（如 `http://192.168.1.8:6677/`）会走 memory 模式，不读写文件，导致插件配置页空白。
+把它固定为 `'host'` 即可修复。
+
+已含一键脚本（修改源码 → bundle ui-settings 包 → 重启 dsh-web → 健康检查，**幂等**可重复执行）：
 
 ```bash
 python3 config/apply-ui-settings-fix.py
-# 会把 settings-scope.ts 的 `isLoopback ? 'host' : 'memory'` 固定为 'host'，
-# bundle ui-settings 包并重启 dsh-web。幂等，可重复执行。
 ```
+
+> **说明**：插件本身走官方 scratch-plugin 路线，是**零源码侵入**的；只有这一步是
+> harness 源码级修改（一行）。不做的话，远程访问下插件配置页为空，但三选一功能
+> 不受影响。**harness 升级后需要重新执行本脚本**（或手动重打这一行）。
 
 ## 使用
 
