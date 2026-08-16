@@ -1,0 +1,10 @@
+# Node
+node_modules/
+*.log
+
+# 构建产物（lib/client.js 保留以便直接用；map 不需要）
+*.map
+
+# Python
+__pycache__/
+*.pyc

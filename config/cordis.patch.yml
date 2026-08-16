@@ -1,0 +1,17 @@
+# ~/.dsh/profiles/web/cordis.patch.yml
+# 用 workspace-picker-plus 替换默认 directory-flow：
+# 本地访问（localhost/127.*）保持原生行为；
+# 远程访问弹三选一（原生弹窗 / Web 文件管理器 / sshfs 挂载）。
+#
+# 安装前提：插件已通过 `pnpm add file:<plugin 路径>` 装入 profile
+# （dsh-workspace-picker-plus 出现在 ~/.dsh/profiles/web/package.json 的 dependencies）。
+
+- id: directory-picker
+  disabled: true
+- insert:
+    # host 半：提供 OS 选择器（directory-picker 禁用后必须补回，供本地原生弹窗使用）
+    - id: directory-picker-native-backend
+      name: '@deepseek-ai/dsh-host-directory-picker-native'
+    # 本插件：node half 空 apply（可被 Loader 加载）+ dsh.client web 半自动下发
+    - id: workspace-picker-plus
+      name: 'dsh-workspace-picker-plus'

@@ -1,0 +1,33 @@
+{
+  "name": "dsh-workspace-picker-plus",
+  "description": "Workspace directory-flow occupant: native OS picker on loopback, three-choice dialog (native / in-app file browser / sshfs mount) on remote hosts",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-workspace"
+      ],
+      "platform": "web"
+    }
+  },
+  "dependencies": {
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^18.3.7"
+  }
+}

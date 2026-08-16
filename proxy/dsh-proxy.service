@@ -1,0 +1,22 @@
+[Unit]
+Description=DeepSeek Harness WebUI 密码中转代理 (dsh-proxy)
+After=network-online.target dsh-web.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/home/vina/.hermes/hermes-agent/venv/bin/python3 /home/vina/.hermes/scripts/dsh_proxy.py
+Environment="DSH_PROXY_HOST=0.0.0.0"
+Environment="DSH_PROXY_PORT=6677"
+Environment="DSH_PROXY_PASSWORD=changeme"
+Environment="DSH_PROXY_TARGET=http://127.0.0.1:3080"
+Restart=on-failure
+RestartSec=3
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
