@@ -7,7 +7,7 @@
 环境变量（均可省略，用默认值）:
   DSH_PROXY_HOST      监听地址（默认 0.0.0.0）
   DSH_PROXY_PORT      监听端口（默认 6677）
-  DSH_PROXY_PASSWORD  访问密码（默认 Sqnhhy327）
+  DSH_PROXY_PASSWORD  访问密码（默认 changeme，务必修改）
   DSH_PROXY_TARGET    上游地址（默认 http://127.0.0.1:3080）
 """
 import asyncio
