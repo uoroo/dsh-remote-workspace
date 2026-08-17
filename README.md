@@ -28,6 +28,24 @@
     3. **SSHFS 挂载远程文件夹**（表单含已保存 SSH 配置下拉 + 挂载点/远程路径目录选择器，挂载后直接采纳为工作区）
 - **/api-fs 文件系统 API**（反代内置，认证后可用）：本机目录浏览/新建/重命名/删除、sshfs 挂载/卸载、sftp 远程目录浏览/新建/重命名/删除。
 
+## 界面预览
+
+> 图为局域网远程访问 `http://192.168.1.8:6677` 的实际效果（Ubuntu + Firefox）。
+
+**密码认证登录**（反代第一道关） · **多端同步**（手机 / 电脑同时在线）：
+
+| <img src="docs/screenshots/auth-login.jpg" width="230"> | <img src="docs/screenshots/multi-device.jpg" width="230"> |
+|---|---|
+
+**挂载非 DSH 宿主机文件夹**（SSHFS 把其他机器的目录挂到宿主机再作为工作区）：
+
+<img src="docs/screenshots/mount-non-host.png" width="720">
+
+**网页添加工作区三选一**（远程访问时） · **SSHFS 挂载表单**（SSH 配置下拉 + 挂载点/远程路径选择器）：
+
+| <img src="docs/screenshots/add-workspace-options.jpg" width="230"> | <img src="docs/screenshots/sshfs-form.jpg" width="230"> |
+|---|---|
+
 ## 架构
 
 ```
